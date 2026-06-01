@@ -1,0 +1,12 @@
+# Build output
+bin/
+obj/
+*.user
+.vs/
+
+# Test results
+TestResults/
+*.trx
+
+# Trained model cache
+*.zip
