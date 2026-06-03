@@ -30,3 +30,11 @@ public class InsuranceRecord
     [LoadColumn(6)]
     public float Charges { get; set; }
 }
+
+/// <summary>The model's output for one person.</summary>
+public class CostPrediction
+{
+    /// <summary>Predicted yearly medical charges in dollars.</summary>
+    [ColumnName("Score")]
+    public float PredictedCharges { get; set; }
+}
