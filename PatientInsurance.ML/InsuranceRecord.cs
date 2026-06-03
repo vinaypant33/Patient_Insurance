@@ -19,4 +19,14 @@ public class InsuranceRecord
 
     [LoadColumn(3)]
     public float Children { get; set; }
+
+    [LoadColumn(4)]
+    public string Smoker { get; set; } = "no";
+
+    [LoadColumn(5)]
+    public string Region { get; set; } = "northeast";
+
+    /// <summary>Yearly medical charges in dollars. This is what the model predicts.</summary>
+    [LoadColumn(6)]
+    public float Charges { get; set; }
 }
