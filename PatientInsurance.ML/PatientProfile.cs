@@ -18,4 +18,14 @@ public record PatientProfile(int Age, bool IsMale, double Bmi, int Children, boo
         if (!Regions.Contains(Region)) problems.Add($"Region must be one of: {string.Join(", ", Regions)}.");
         return problems;
     }
+
+    public InsuranceRecord ToRecord() => new()
+    {
+        Age = Age,
+        Sex = IsMale ? "male" : "female",
+        Bmi = (float)Bmi,
+        Children = Children,
+        Smoker = IsSmoker ? "yes" : "no",
+        Region = Region,
+    };
 }
