@@ -48,4 +48,16 @@ public class SyntheticDataGenerator
             Charges = (float)Math.Round(Charges(age, bmi, children, smoker, region), 2),
         };
     }
+
+    private int NextChildren()
+    {
+        // Roughly how family sizes are spread in the real data.
+        var roll = _random.NextDouble();
+        if (roll < 0.43) return 0;
+        if (roll < 0.67) return 1;
+        if (roll < 0.85) return 2;
+        if (roll < 0.97) return 3;
+        if (roll < 0.99) return 4;
+        return 5;
+    }
 }
