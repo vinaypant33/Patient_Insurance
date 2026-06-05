@@ -14,4 +14,16 @@ public class SyntheticDataGenerator
     {
         _random = new Random(seed);
     }
+
+    public List<InsuranceRecord> Generate(int count)
+    {
+        if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count), "count must be positive");
+
+        var rows = new List<InsuranceRecord>(count);
+        for (var i = 0; i < count; i++)
+        {
+            rows.Add(NextRecord());
+        }
+        return rows;
+    }
 }
