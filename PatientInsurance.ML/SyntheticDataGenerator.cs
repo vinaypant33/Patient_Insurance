@@ -60,4 +60,31 @@ public class SyntheticDataGenerator
         if (roll < 0.99) return 4;
         return 5;
     }
+
+    private double Charges(int age, double bmi, int children, bool smoker, string region)
+    {
+        double cost = -2300 + 265 * age + 480 * children;
+
+        cost += region switch
+        {
+            "northwest" => -350,
+            "southeast" => -1000,
+            "southwest" => -950,
+            _ => 0,
+        };
+
+        if (smoker)
+        {
+            cost += 13500 + 450 * (bmi - 30);
+            if (bmi >= 30) cost += 18500; // smoking and obesity together cost far more
+        }
+        else
+        {
+            cost += 20 * (bmi - 30);
+            if (_random.NextDouble() < 0.06) cost += 6000 + 12000 * _random.NextDouble(); // a few expensive cases
+        }
+
+        cost += NextGaussian(0, 1400);
+        return Math.Max(1100, cost);
+    }
 }
