@@ -26,4 +26,26 @@ public class SyntheticDataGenerator
         }
         return rows;
     }
+
+    private InsuranceRecord NextRecord()
+    {
+        var age = _random.Next(18, 65);
+        var isMale = _random.NextDouble() < 0.5;
+        var region = PatientProfile.Regions[_random.Next(PatientProfile.Regions.Length)];
+        var bmiShift = region == "southeast" ? 1.5 : 0.0;
+        var bmi = Math.Clamp(NextGaussian(30.4 + bmiShift, 6.0), 16.0, 53.0);
+        var children = NextChildren();
+        var smoker = _random.NextDouble() < 0.205;
+
+        return new InsuranceRecord
+        {
+            Age = age,
+            Sex = isMale ? "male" : "female",
+            Bmi = (float)Math.Round(bmi, 2),
+            Children = children,
+            Smoker = smoker ? "yes" : "no",
+            Region = region,
+            Charges = (float)Math.Round(Charges(age, bmi, children, smoker, region), 2),
+        };
+    }
 }
