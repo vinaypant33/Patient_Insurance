@@ -87,4 +87,13 @@ public class SyntheticDataGenerator
         cost += NextGaussian(0, 1400);
         return Math.Max(1100, cost);
     }
+
+    private double NextGaussian(double mean, double stdDev)
+    {
+        // Box-Muller transform
+        var u1 = 1.0 - _random.NextDouble();
+        var u2 = _random.NextDouble();
+        var standard = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+        return mean + stdDev * standard;
+    }
 }
