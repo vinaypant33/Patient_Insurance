@@ -25,4 +25,11 @@ public static class RiskClassifier
         if (predictedAnnualCost >= MediumThreshold) return RiskLevel.Medium;
         return RiskLevel.Low;
     }
+
+    /// <summary>Suggested monthly premium: expected yearly cost plus loading, over 12 months.</summary>
+    public static decimal MonthlyPremium(decimal predictedAnnualCost)
+    {
+        var yearly = Math.Max(0m, predictedAnnualCost) * (1m + PremiumLoading);
+        return Math.Round(yearly / 12m, 0, MidpointRounding.AwayFromZero);
+    }
 }
