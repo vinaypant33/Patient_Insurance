@@ -18,4 +18,11 @@ public static class RiskClassifier
 
     /// <summary>Extra charged on top of the expected cost to cover running costs.</summary>
     public const decimal PremiumLoading = 0.15m;
+
+    public static RiskLevel Classify(decimal predictedAnnualCost)
+    {
+        if (predictedAnnualCost >= HighThreshold) return RiskLevel.High;
+        if (predictedAnnualCost >= MediumThreshold) return RiskLevel.Medium;
+        return RiskLevel.Low;
+    }
 }
