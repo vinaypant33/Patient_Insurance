@@ -10,4 +10,8 @@ public record ModelMetrics(
 {
     /// <summary>R² as a percentage, e.g. 86.4 means the model explains 86.4% of the variation.</summary>
     public double RSquaredPercent => Math.Round(RSquared * 100, 1);
+
+    public string Summary =>
+        $"R² {RSquared:0.000}, average error ${MeanAbsoluteError:N0}, RMSE ${RootMeanSquaredError:N0} " +
+        $"({TrainingRows} training rows, {TestRows} test rows)";
 }
