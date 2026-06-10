@@ -28,4 +28,28 @@ public class PremiumModel
     public bool IsTrained => _model != null;
 
     public ModelMetrics? Metrics { get; private set; }
+
+    private IEstimator<ITransformer> BuildPipeline()
+    {
+        return _ml.Transforms.Categorical.OneHotEncoding(new[]
+            {
+                new InputOutputColumnPair("SexEncoded", nameof(InsuranceRecord.Sex)),
+                new InputOutputColumnPair("SmokerEncoded", nameof(InsuranceRecord.Smoker)),
+                new InputOutputColumnPair("RegionEncoded", nameof(InsuranceRecord.Region)),
+            })
+            .Append(_ml.Transforms.Concatenate("Features",
+                nameof(InsuranceRecord.Age),
+                nameof(InsuranceRecord.Bmi),
+                nameof(InsuranceRecord.Children),
+                "SexEncoded",
+                "SmokerEncoded",
+                "RegionEncoded"))
+            .Append(_ml.Regression.Trainers.FastTree(
+                labelColumnName: Label,
+                featureColumnName: "Features",
+                numberOfLeaves: 16,
+                numberOfTrees: 200,
+                minimumExampleCountPerLeaf: 10,
+                learningRate: 0.1));
+    }
 }
