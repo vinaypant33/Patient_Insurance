@@ -52,4 +52,34 @@ public class PremiumModel
                 minimumExampleCountPerLeaf: 10,
                 learningRate: 0.1));
     }
+
+    /// <summary>
+    /// Trains on 80% of the rows and measures accuracy on the other 20%.
+    /// </summary>
+    public ModelMetrics Train(IReadOnlyCollection<InsuranceRecord> rows, double testFraction = 0.2)
+    {
+        if (rows.Count < 20) throw new ArgumentException("Need at least 20 rows to train", nameof(rows));
+
+        var data = _ml.Data.LoadFromEnumerable(rows);
+        var split = _ml.Data.TrainTestSplit(data, testFraction, seed: 7);
+
+        var model = BuildPipeline().Fit(split.TrainSet);
+        var scored = model.Transform(split.TestSet);
+        var result = _ml.Regression.Evaluate(scored, labelColumnName: Label);
+
+        var testRows = split.TestSet.GetColumn<float>(Label).Count();
+        Metrics = new ModelMetrics(
+            result.RSquared,
+            result.MeanAbsoluteError,
+            result.RootMeanSquaredError,
+            rows.Count - testRows,
+            testRows);
+
+        lock (_predictLock)
+        {
+            _model = model;
+            _engine = _ml.Model.CreatePredictionEngine<InsuranceRecord, CostPrediction>(model);
+        }
+        return Metrics;
+    }
 }
