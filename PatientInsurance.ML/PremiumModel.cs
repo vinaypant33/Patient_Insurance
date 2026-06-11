@@ -84,4 +84,18 @@ public class PremiumModel
     }
 
     public ModelMetrics TrainFromCsv(string path) => Train(InsuranceCsv.Read(path));
+
+    /// <summary>Predicted yearly medical charges in dollars.</summary>
+    public decimal PredictAnnualCost(PatientProfile profile)
+    {
+        var problems = profile.Validate();
+        if (problems.Count > 0) throw new ArgumentException(string.Join(" ", problems), nameof(profile));
+
+        lock (_predictLock)
+        {
+            if (_engine == null) throw new InvalidOperationException("Train the model before predicting.");
+            var prediction = _engine.Predict(profile.ToRecord());
+            return Math.Max(0m, Math.Round((decimal)prediction.PredictedCharges, 2));
+        }
+    }
 }
