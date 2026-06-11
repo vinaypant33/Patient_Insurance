@@ -82,4 +82,6 @@ public class PremiumModel
         }
         return Metrics;
     }
+
+    public ModelMetrics TrainFromCsv(string path) => Train(InsuranceCsv.Read(path));
 }
