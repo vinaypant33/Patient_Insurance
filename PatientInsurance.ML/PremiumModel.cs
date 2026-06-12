@@ -98,4 +98,11 @@ public class PremiumModel
             return Math.Max(0m, Math.Round((decimal)prediction.PredictedCharges, 2));
         }
     }
+
+    public void Save(string path)
+    {
+        if (_model == null) throw new InvalidOperationException("Train the model before saving.");
+        var schema = _ml.Data.LoadFromEnumerable(Array.Empty<InsuranceRecord>()).Schema;
+        _ml.Model.Save(_model, schema, path);
+    }
 }
