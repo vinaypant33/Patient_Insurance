@@ -21,5 +21,20 @@ public static class Program
             PrintUsage();
             return args.Length == 0 ? 1 : 0;
         }
+
+        try
+        {
+            return args[0] switch
+            {
+                "generate" => Generate(args),
+                "train" => Train(args),
+                _ => Unknown(args[0]),
+            };
+        }
+        catch (Exception error) when (error is IOException or InvalidDataException or ArgumentException or FormatException)
+        {
+            Console.Error.WriteLine($"error: {error.Message}");
+            return 1;
+        }
     }
 }
