@@ -37,4 +37,20 @@ public static class Program
             return 1;
         }
     }
+
+    private static int Generate(string[] args)
+    {
+        var rows = args.Length > 1 ? int.Parse(args[1], CultureInfo.InvariantCulture) : 1338;
+        var seed = args.Length > 2 ? int.Parse(args[2], CultureInfo.InvariantCulture) : 42;
+        var output = args.Length > 3 ? args[3] : DefaultCsv;
+
+        var records = new SyntheticDataGenerator(seed).Generate(rows);
+        InsuranceCsv.Write(output, records);
+
+        var smokers = records.Count(r => r.Smoker == "yes");
+        Console.WriteLine($"Wrote {records.Count} dummy rows to {output} (seed {seed})");
+        Console.WriteLine($"  smokers: {smokers} ({100.0 * smokers / records.Count:0.0}%)");
+        Console.WriteLine($"  average charges: ${records.Average(r => r.Charges):N0}");
+        return 0;
+    }
 }
