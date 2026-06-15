@@ -70,4 +70,18 @@ public static class Program
         Console.WriteLine($"  rows:    {metrics.TrainingRows} train / {metrics.TestRows} test");
         return 0;
     }
+
+    private static int Unknown(string command)
+    {
+        Console.Error.WriteLine($"unknown command '{command}'");
+        PrintUsage();
+        return 1;
+    }
+
+    private static void PrintUsage()
+    {
+        Console.WriteLine("usage:");
+        Console.WriteLine("  generate [rows=1338] [seed=42] [output=data/insurance_dummy.csv]");
+        Console.WriteLine("  train    [input=data/insurance_dummy.csv] [model=data/premium_model.zip]");
+    }
 }
