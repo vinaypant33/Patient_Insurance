@@ -53,4 +53,21 @@ public static class Program
         Console.WriteLine($"  average charges: ${records.Average(r => r.Charges):N0}");
         return 0;
     }
+
+    private static int Train(string[] args)
+    {
+        var input = args.Length > 1 ? args[1] : DefaultCsv;
+        var output = args.Length > 2 ? args[2] : DefaultModel;
+
+        var model = new PremiumModel();
+        var metrics = model.TrainFromCsv(input);
+        model.Save(output);
+
+        Console.WriteLine($"Trained on {input}, saved model to {output}");
+        Console.WriteLine($"  R²:      {metrics.RSquared:0.000}");
+        Console.WriteLine($"  MAE:     ${metrics.MeanAbsoluteError:N0}");
+        Console.WriteLine($"  RMSE:    ${metrics.RootMeanSquaredError:N0}");
+        Console.WriteLine($"  rows:    {metrics.TrainingRows} train / {metrics.TestRows} test");
+        return 0;
+    }
 }
