@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientInsurance.ML", "Pati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientInsurance.Tools", "PatientInsurance.Tools\PatientInsurance.Tools.csproj", "{BF8BB113-C567-496D-8558-E835C87096EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientInsurance.Tests", "PatientInsurance.Tests\PatientInsurance.Tests.csproj", "{CD79CFC5-9786-4AFB-A333-930B73130DE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{BF8BB113-C567-496D-8558-E835C87096EA}.Release|x64.Build.0 = Release|Any CPU
 		{BF8BB113-C567-496D-8558-E835C87096EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF8BB113-C567-496D-8558-E835C87096EA}.Release|x86.Build.0 = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|x64.Build.0 = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Debug|x86.Build.0 = Debug|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|x64.Build.0 = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD79CFC5-9786-4AFB-A333-930B73130DE0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
