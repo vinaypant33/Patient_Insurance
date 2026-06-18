@@ -35,4 +35,12 @@ public class DataTests
             Assert.True(r.Charges >= 1100);
         });
     }
+
+    [Fact]
+    public void About_a_fifth_are_smokers()
+    {
+        var rows = new SyntheticDataGenerator(9).Generate(5000);
+        var share = rows.Count(r => r.Smoker == "yes") / (double)rows.Count;
+        Assert.InRange(share, 0.17, 0.24);
+    }
 }
