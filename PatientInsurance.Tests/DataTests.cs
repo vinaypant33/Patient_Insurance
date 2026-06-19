@@ -52,4 +52,28 @@ public class DataTests
         var nonSmokers = rows.Where(r => r.Smoker == "no").Average(r => r.Charges);
         Assert.True(smokers > nonSmokers * 2.5, $"smokers {smokers:N0} vs non-smokers {nonSmokers:N0}");
     }
+
+    [Fact]
+    public void Csv_round_trip_keeps_values()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"insurance_{Guid.NewGuid():N}.csv");
+        try
+        {
+            var rows = new SyntheticDataGenerator(2).Generate(30);
+            InsuranceCsv.Write(path, rows);
+            var back = InsuranceCsv.Read(path);
+
+            Assert.Equal(rows.Count, back.Count);
+            for (var i = 0; i < rows.Count; i++)
+            {
+                Assert.Equal(rows[i].Age, back[i].Age);
+                Assert.Equal(rows[i].Region, back[i].Region);
+                Assert.Equal(rows[i].Charges, back[i].Charges, 2);
+            }
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
 }
