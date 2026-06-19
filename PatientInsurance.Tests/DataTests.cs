@@ -43,4 +43,13 @@ public class DataTests
         var share = rows.Count(r => r.Smoker == "yes") / (double)rows.Count;
         Assert.InRange(share, 0.17, 0.24);
     }
+
+    [Fact]
+    public void Smokers_cost_more_on_average()
+    {
+        var rows = new SyntheticDataGenerator(11).Generate(3000);
+        var smokers = rows.Where(r => r.Smoker == "yes").Average(r => r.Charges);
+        var nonSmokers = rows.Where(r => r.Smoker == "no").Average(r => r.Charges);
+        Assert.True(smokers > nonSmokers * 2.5, $"smokers {smokers:N0} vs non-smokers {nonSmokers:N0}");
+    }
 }
