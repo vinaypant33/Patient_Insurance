@@ -76,4 +76,19 @@ public class DataTests
             File.Delete(path);
         }
     }
+
+    [Fact]
+    public void Csv_with_wrong_header_is_rejected()
+    {
+        var path = Path.Combine(Path.GetTempPath(), $"bad_{Guid.NewGuid():N}.csv");
+        try
+        {
+            File.WriteAllText(path, "name,amount\nx,1\n");
+            Assert.Throws<InvalidDataException>(() => InsuranceCsv.Read(path));
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
 }
