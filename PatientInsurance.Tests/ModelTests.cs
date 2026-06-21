@@ -26,4 +26,10 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
 
     private static PatientProfile Profile(int age = 40, double bmi = 27, bool smoker = false, int children = 1) =>
         new(age, IsMale: true, bmi, children, smoker, "northeast");
+
+    [Fact]
+    public void Model_explains_most_of_the_variation()
+    {
+        Assert.True(_fixture.Metrics.RSquared > 0.8, _fixture.Metrics.Summary);
+    }
 }
