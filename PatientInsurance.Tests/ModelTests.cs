@@ -40,4 +40,12 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
         Assert.Equal(1338, metrics.TrainingRows + metrics.TestRows);
         Assert.InRange(metrics.TestRows, 200, 340);
     }
+
+    [Fact]
+    public void Smoker_costs_more_than_non_smoker()
+    {
+        var smoker = _fixture.Model.PredictAnnualCost(Profile(smoker: true));
+        var nonSmoker = _fixture.Model.PredictAnnualCost(Profile(smoker: false));
+        Assert.True(smoker > nonSmoker * 2, $"{smoker} vs {nonSmoker}");
+    }
 }
