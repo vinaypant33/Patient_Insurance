@@ -32,4 +32,12 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
     {
         Assert.True(_fixture.Metrics.RSquared > 0.8, _fixture.Metrics.Summary);
     }
+
+    [Fact]
+    public void Split_uses_about_a_fifth_for_testing()
+    {
+        var metrics = _fixture.Metrics;
+        Assert.Equal(1338, metrics.TrainingRows + metrics.TestRows);
+        Assert.InRange(metrics.TestRows, 200, 340);
+    }
 }
