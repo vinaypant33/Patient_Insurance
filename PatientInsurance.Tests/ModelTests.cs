@@ -48,4 +48,12 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
         var nonSmoker = _fixture.Model.PredictAnnualCost(Profile(smoker: false));
         Assert.True(smoker > nonSmoker * 2, $"{smoker} vs {nonSmoker}");
     }
+
+    [Fact]
+    public void Older_patient_costs_more()
+    {
+        var young = _fixture.Model.PredictAnnualCost(Profile(age: 22));
+        var old = _fixture.Model.PredictAnnualCost(Profile(age: 62));
+        Assert.True(old > young, $"{old} vs {young}");
+    }
 }
