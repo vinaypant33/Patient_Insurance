@@ -62,4 +62,10 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
     {
         Assert.Throws<ArgumentException>(() => _fixture.Model.PredictAnnualCost(Profile(age: 5)));
     }
+
+    [Fact]
+    public void Predicting_before_training_fails()
+    {
+        Assert.Throws<InvalidOperationException>(() => new PremiumModel().PredictAnnualCost(Profile()));
+    }
 }
