@@ -56,4 +56,10 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
         var old = _fixture.Model.PredictAnnualCost(Profile(age: 62));
         Assert.True(old > young, $"{old} vs {young}");
     }
+
+    [Fact]
+    public void Invalid_profile_is_rejected()
+    {
+        Assert.Throws<ArgumentException>(() => _fixture.Model.PredictAnnualCost(Profile(age: 5)));
+    }
 }
