@@ -83,4 +83,17 @@ public class RiskTests
     {
         Assert.Equal(expected, RiskClassifier.Classify((decimal)cost));
     }
+
+    [Fact]
+    public void Monthly_premium_adds_loading_and_divides_by_twelve()
+    {
+        // 12,000 a year + 15% = 13,800 a year = 1,150 a month
+        Assert.Equal(1150m, RiskClassifier.MonthlyPremium(12_000m));
+    }
+
+    [Fact]
+    public void Monthly_premium_is_never_negative()
+    {
+        Assert.Equal(0m, RiskClassifier.MonthlyPremium(-50m));
+    }
 }
