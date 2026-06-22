@@ -69,3 +69,18 @@ public class ModelTests : IClassFixture<TrainedModelFixture>
         Assert.Throws<InvalidOperationException>(() => new PremiumModel().PredictAnnualCost(Profile()));
     }
 }
+
+public class RiskTests
+{
+    [Theory]
+    [InlineData(4_000, RiskLevel.Low)]
+    [InlineData(9_999.99, RiskLevel.Low)]
+    [InlineData(10_000, RiskLevel.Medium)]
+    [InlineData(24_999, RiskLevel.Medium)]
+    [InlineData(25_000, RiskLevel.High)]
+    [InlineData(48_000, RiskLevel.High)]
+    public void Cost_maps_to_risk_level(double cost, RiskLevel expected)
+    {
+        Assert.Equal(expected, RiskClassifier.Classify((decimal)cost));
+    }
+}
