@@ -96,4 +96,11 @@ public class RiskTests
     {
         Assert.Equal(0m, RiskClassifier.MonthlyPremium(-50m));
     }
+
+    [Fact]
+    public void Profile_validation_lists_every_problem()
+    {
+        var problems = new PatientProfile(10, false, 5, -1, false, "mars").Validate();
+        Assert.Equal(4, problems.Count);
+    }
 }
