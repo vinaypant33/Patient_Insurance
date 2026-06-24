@@ -8,4 +8,13 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PatientInsurance.ML\PatientInsurance.ML.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The model trains on this dummy data when the app starts -->
+    <None Include="..\data\insurance_dummy.csv" Link="Data\insurance_dummy.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
