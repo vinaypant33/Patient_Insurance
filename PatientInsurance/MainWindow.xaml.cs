@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using PatientInsurance.ML;
 
 namespace PatientInsurance;
 
@@ -46,12 +47,40 @@ public class Claim
     public DateTime SubmittedOn { get; init; }
 }
 
-public class PatientRecord
+public class PatientRecord : ObservableObject
 {
+    private decimal? _predictedAnnualCost;
+    private RiskLevel? _risk;
+
     public required string Name { get; init; }
     public required string PolicyNumber { get; init; }
     public int Age { get; init; }
     public required string Status { get; init; }
+
+    // Health details used by the premium model
+    public bool IsMale { get; init; }
+    public double Bmi { get; init; }
+    public int Children { get; init; }
+    public bool IsSmoker { get; init; }
+    public string Region { get; init; } = "northeast";
+
+    public string SmokerDisplay => IsSmoker ? "Yes" : "No";
+    public string RegionDisplay => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Region);
+
+    /// <summary>Filled in once the model has finished training.</summary>
+    public decimal? PredictedAnnualCost
+    {
+        get => _predictedAnnualCost;
+        set => SetProperty(ref _predictedAnnualCost, value);
+    }
+
+    public RiskLevel? Risk
+    {
+        get => _risk;
+        set => SetProperty(ref _risk, value);
+    }
+
+    public PatientProfile ToProfile() => new(Age, IsMale, Bmi, Children, IsSmoker, Region);
 }
 
 // ============================================================================
@@ -91,12 +120,14 @@ public class DashboardDataService
 
     public List<PatientRecord> GetPatients() => new()
     {
-        new PatientRecord { Name = "Ava Thompson", PolicyNumber = "POL-3391", Age = 34, Status = "Active" },
-        new PatientRecord { Name = "Liam Ortiz", PolicyNumber = "POL-2287", Age = 58, Status = "Active" },
-        new PatientRecord { Name = "Sofia Kim", PolicyNumber = "POL-4410", Age = 27, Status = "Active" },
-        new PatientRecord { Name = "Noah Bennett", PolicyNumber = "POL-5521", Age = 45, Status = "Inactive" },
-        new PatientRecord { Name = "Emma Rossi", PolicyNumber = "POL-6634", Age = 61, Status = "Active" },
-        new PatientRecord { Name = "Mason Clarke", PolicyNumber = "POL-7788", Age = 39, Status = "Pending" },
+        new PatientRecord { Name = "Ava Thompson", PolicyNumber = "POL-3391", Age = 34, Status = "Active", Bmi = 24.1, Children = 2, IsSmoker = false, Region = "northeast" },
+        new PatientRecord { Name = "Liam Ortiz", PolicyNumber = "POL-2287", Age = 58, Status = "Active", IsMale = true, Bmi = 31.8, Children = 0, IsSmoker = true, Region = "southwest" },
+        new PatientRecord { Name = "Sofia Kim", PolicyNumber = "POL-4410", Age = 27, Status = "Active", Bmi = 21.5, Children = 0, IsSmoker = false, Region = "northwest" },
+        new PatientRecord { Name = "Noah Bennett", PolicyNumber = "POL-5521", Age = 45, Status = "Inactive", IsMale = true, Bmi = 28.9, Children = 3, IsSmoker = false, Region = "southeast" },
+        new PatientRecord { Name = "Emma Rossi", PolicyNumber = "POL-6634", Age = 61, Status = "Active", Bmi = 33.4, Children = 1, IsSmoker = false, Region = "northeast" },
+        new PatientRecord { Name = "Mason Clarke", PolicyNumber = "POL-7788", Age = 39, Status = "Pending", IsMale = true, Bmi = 26.7, Children = 2, IsSmoker = true, Region = "southeast" },
+        new PatientRecord { Name = "Isabella Grant", PolicyNumber = "POL-8102", Age = 52, Status = "Active", Bmi = 29.3, Children = 2, IsSmoker = false, Region = "northwest" },
+        new PatientRecord { Name = "Ethan Walsh", PolicyNumber = "POL-8240", Age = 23, Status = "Active", IsMale = true, Bmi = 35.2, Children = 0, IsSmoker = true, Region = "southwest" },
     };
 }
 
