@@ -203,6 +203,28 @@ public class ClaimStatusToBrushConverter : IValueConverter
         throw new NotImplementedException();
 }
 
+public class RiskToBrushConverter : IValueConverter
+{
+    private static readonly SolidColorBrush Low = new(Color.FromRgb(46, 158, 91));
+    private static readonly SolidColorBrush Medium = new(Color.FromRgb(224, 167, 46));
+    private static readonly SolidColorBrush High = new(Color.FromRgb(213, 84, 74));
+    private static readonly SolidColorBrush Unknown = new(Color.FromRgb(154, 164, 178));
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is RiskLevel risk ? risk switch
+        {
+            RiskLevel.Low => Low,
+            RiskLevel.Medium => Medium,
+            RiskLevel.High => High,
+            _ => Unknown
+        } : Unknown;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        throw new NotImplementedException();
+}
+
 // ============================================================================
 // MainWindow — layout is in MainWindow.xaml, all behavior lives here
 // ============================================================================
