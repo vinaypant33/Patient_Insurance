@@ -302,6 +302,12 @@ public partial class MainWindow : Window
         NavPredictorButton.Background = key == "Predictor" ? selected : Brushes.Transparent;
     }
 
+    // ---- premium predictor ----
+
+    private void PredictButton_Click(object sender, RoutedEventArgs e)
+    {
+    }
+
     // ---- sidebar collapse/expand ----
 
     private void HamburgerButton_Click(object sender, RoutedEventArgs e)

@@ -101,6 +101,30 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="FormLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <Style x:Key="FormTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
+            <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+            <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+
+        <Style x:Key="FormComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+
         <Style x:Key="SidebarNavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
@@ -546,6 +570,73 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+
+                            <!-- Inputs -->
+                            <Border Grid.Column="0" Style="{StaticResource DashboardCardStyle}" Margin="0,0,20,0" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <TextBlock Text="Patient details" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="AGE (18–100)" Style="{StaticResource FormLabelStyle}" />
+                                            <TextBox x:Name="AgeInput" Text="35" Style="{StaticResource FormTextBoxStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="BMI (10–70)" Style="{StaticResource FormLabelStyle}" />
+                                            <TextBox x:Name="BmiInput" Text="26.5" Style="{StaticResource FormTextBoxStyle}" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="CHILDREN" Style="{StaticResource FormLabelStyle}" />
+                                            <ComboBox x:Name="ChildrenInput" SelectedIndex="1" Style="{StaticResource FormComboBoxStyle}">
+                                                <ComboBoxItem Content="0" />
+                                                <ComboBoxItem Content="1" />
+                                                <ComboBoxItem Content="2" />
+                                                <ComboBoxItem Content="3" />
+                                                <ComboBoxItem Content="4" />
+                                                <ComboBoxItem Content="5" />
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="SEX" Style="{StaticResource FormLabelStyle}" />
+                                            <ComboBox x:Name="SexInput" SelectedIndex="0" Style="{StaticResource FormComboBoxStyle}">
+                                                <ComboBoxItem Content="Female" />
+                                                <ComboBoxItem Content="Male" />
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <TextBlock Text="REGION" Style="{StaticResource FormLabelStyle}" />
+                                    <ComboBox x:Name="RegionInput" SelectedIndex="0" Style="{StaticResource FormComboBoxStyle}">
+                                        <ComboBoxItem Content="Northeast" Tag="northeast" />
+                                        <ComboBoxItem Content="Northwest" Tag="northwest" />
+                                        <ComboBoxItem Content="Southeast" Tag="southeast" />
+                                        <ComboBoxItem Content="Southwest" Tag="southwest" />
+                                    </ComboBox>
+
+                                    <CheckBox x:Name="SmokerInput" Content="Smoker" FontSize="14" Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,0,0,20" />
+
+                                    <Button x:Name="PredictButton" Click="PredictButton_Click" IsEnabled="False"
+                                            Style="{StaticResource CardButtonStyle}" Background="{StaticResource BrandTealBrush}"
+                                            Padding="20,12" Cursor="Hand" HorizontalAlignment="Stretch">
+                                        <TextBlock Text="Predict cost" Foreground="White" FontSize="14" FontWeight="SemiBold" />
+                                    </Button>
+                                    <TextBlock x:Name="PredictErrorText" Foreground="{StaticResource DangerBrush}" FontSize="12"
+                                               TextWrapping="Wrap" Margin="0,10,0,0" Visibility="Collapsed" />
+                                </StackPanel>
+                            </Border>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
