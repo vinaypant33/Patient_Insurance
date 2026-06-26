@@ -276,12 +276,14 @@ public partial class MainWindow : Window
         PatientsPage.Visibility = key == "Patients" ? Visibility.Visible : Visibility.Collapsed;
         SubmissionsPage.Visibility = key == "Submissions" ? Visibility.Visible : Visibility.Collapsed;
         SettingsPage.Visibility = key == "Settings" ? Visibility.Visible : Visibility.Collapsed;
+        PredictorPage.Visibility = key == "Predictor" ? Visibility.Visible : Visibility.Collapsed;
 
         PageTitleText.Text = key switch
         {
             "Dashboard" => "Dashboard",
             "Patients" => "Patient Data",
             "Submissions" => "Current Submissions",
+            "Predictor" => "Premium Predictor",
             "Settings" => "Settings",
             _ => "Dashboard"
         };
@@ -297,6 +299,7 @@ public partial class MainWindow : Window
         NavPatientsButton.Background = key == "Patients" ? selected : Brushes.Transparent;
         NavSubmissionsButton.Background = key == "Submissions" ? selected : Brushes.Transparent;
         NavSettingsButton.Background = key == "Settings" ? selected : Brushes.Transparent;
+        NavPredictorButton.Background = key == "Predictor" ? selected : Brushes.Transparent;
     }
 
     // ---- sidebar collapse/expand ----

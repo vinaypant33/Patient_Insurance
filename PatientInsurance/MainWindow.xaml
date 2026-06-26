@@ -10,6 +10,7 @@
     <Window.Resources>
 
         <local:ClaimStatusToBrushConverter x:Key="StatusToBrushConverter" />
+        <local:RiskToBrushConverter x:Key="RiskToBrushConverter" />
 
         <!-- Fixed brand colors (status accents do not change with theme) -->
         <Color x:Key="BrandTealColor">#0F7B7B</Color>
@@ -258,6 +259,12 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE9F5;" FontFamily="Segoe MDL2 Assets" FontSize="16" Width="24" />
                             <TextBlock Text="Current Submissions" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="NavPredictorButton" Tag="Predictor" Style="{StaticResource SidebarNavButtonStyle}" Click="NavButton_Click" Margin="0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="16" Width="24" />
+                            <TextBlock Text="Premium Predictor" Margin="10,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -526,6 +533,22 @@
                         </StackPanel>
                     </Border>
                 </Grid>
+
+                <!-- Premium Predictor page (machine learning) -->
+                <ScrollViewer x:Name="PredictorPage" Padding="32,24,32,40" Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="Predict a patient's yearly medical cost" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4" />
+                        <TextBlock Text="An ML.NET model trained on dummy insurance data estimates the yearly cost, a fair monthly premium and the risk level."
+                                   Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap" Margin="0,0,0,20" />
+
+                        <Grid x:Name="PredictorGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
 
                 <!-- Settings page -->
                 <Grid x:Name="SettingsPage" Margin="32,24" Visibility="Collapsed">
