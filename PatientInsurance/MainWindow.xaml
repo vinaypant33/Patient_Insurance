@@ -637,6 +637,43 @@
                                                TextWrapping="Wrap" Margin="0,10,0,0" Visibility="Collapsed" />
                                 </StackPanel>
                             </Border>
+
+                            <!-- Results -->
+                            <StackPanel Grid.Column="1">
+                                <Border Style="{StaticResource DashboardCardStyle}" Margin="0,0,0,20">
+                                    <StackPanel>
+                                        <TextBlock Text="Prediction" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,16" />
+
+                                        <TextBlock x:Name="PredictionPlaceholderText" Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap"
+                                                   Text="Fill in the patient details and press Predict cost." />
+
+                                        <StackPanel x:Name="PredictionResultPanel" Visibility="Collapsed">
+                                            <TextBlock Text="Expected yearly medical cost" Style="{StaticResource StatLabelStyle}" />
+                                            <TextBlock x:Name="PredictedCostText" Style="{StaticResource StatValueStyle}" Margin="0,2,0,16" />
+
+                                            <Grid Margin="0,0,0,16">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="Suggested monthly premium" Style="{StaticResource StatLabelStyle}" />
+                                                    <TextBlock x:Name="MonthlyPremiumText" FontSize="22" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,2,0,0" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="Risk level" Style="{StaticResource StatLabelStyle}" />
+                                                    <Border x:Name="RiskBadge" CornerRadius="12" Padding="12,4" HorizontalAlignment="Left" Margin="0,6,0,0">
+                                                        <TextBlock x:Name="RiskText" Foreground="White" FontSize="13" FontWeight="SemiBold" />
+                                                    </Border>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <TextBlock x:Name="PredictionNoteText" Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

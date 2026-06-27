@@ -335,6 +335,51 @@ public partial class MainWindow : Window
 
     private void PredictButton_Click(object sender, RoutedEventArgs e)
     {
+        PredictErrorText.Visibility = Visibility.Collapsed;
+
+        var problems = new List<string>();
+        if (!int.TryParse(AgeInput.Text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture, out var age))
+            problems.Add("Age must be a whole number.");
+        if (!double.TryParse(BmiInput.Text.Trim(), NumberStyles.Float, CultureInfo.CurrentCulture, out var bmi)
+            && !double.TryParse(BmiInput.Text.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out bmi))
+            problems.Add("BMI must be a number, for example 26.5.");
+
+        if (problems.Count == 0)
+        {
+            var profile = new PatientProfile(
+                age,
+                IsMale: SexInput.SelectedIndex == 1,
+                bmi,
+                Children: ChildrenInput.SelectedIndex,
+                IsSmoker: SmokerInput.IsChecked == true,
+                Region: (string)((ComboBoxItem)RegionInput.SelectedItem).Tag);
+
+            problems.AddRange(profile.Validate());
+            if (problems.Count == 0)
+            {
+                ShowPrediction(profile, _premiumModel.PredictAnnualCost(profile));
+                return;
+            }
+        }
+
+        PredictErrorText.Text = string.Join("\n", problems);
+        PredictErrorText.Visibility = Visibility.Visible;
+    }
+
+    private void ShowPrediction(PatientProfile profile, decimal annualCost)
+    {
+        var risk = RiskClassifier.Classify(annualCost);
+
+        PredictedCostText.Text = annualCost.ToString("C0");
+        MonthlyPremiumText.Text = RiskClassifier.MonthlyPremium(annualCost).ToString("C0");
+        RiskText.Text = risk.ToString();
+        RiskBadge.Background = (Brush)new RiskToBrushConverter().Convert(risk, typeof(Brush), null!, CultureInfo.CurrentCulture);
+        PredictionNoteText.Text = profile.IsSmoker
+            ? "Smoking is the biggest driver of cost in this model, especially together with a BMI of 30 or more."
+            : "Age, BMI and the number of children drive this estimate. The premium adds a 15% loading to the expected cost.";
+
+        PredictionPlaceholderText.Visibility = Visibility.Collapsed;
+        PredictionResultPanel.Visibility = Visibility.Visible;
     }
 
     // ---- sidebar collapse/expand ----
