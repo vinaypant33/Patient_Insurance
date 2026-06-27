@@ -233,6 +233,7 @@ public partial class MainWindow : Window
 {
     private readonly DashboardViewModel _viewModel = new();
     private readonly DashboardDataService _dataService = new();
+    private readonly PremiumModel _premiumModel = new();
     private bool _isDarkTheme;
     private bool _sidebarOpen = true;
     private string _currentPage = "Dashboard";
@@ -303,6 +304,34 @@ public partial class MainWindow : Window
     }
 
     // ---- premium predictor ----
+
+    private async Task TrainModelAsync()
+    {
+        var csvPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "insurance_dummy.csv");
+        try
+        {
+            // Training takes about a second; keep it off the UI thread.
+            var metrics = await Task.Run(() => _premiumModel.TrainFromCsv(csvPath));
+            OnModelTrained(metrics);
+        }
+        catch (Exception ex) when (ex is System.IO.IOException or System.IO.InvalidDataException
+                                       or ArgumentException or InvalidOperationException)
+        {
+            OnModelFailed(ex.Message);
+        }
+    }
+
+    private void OnModelTrained(ModelMetrics metrics)
+    {
+        PredictButton.IsEnabled = true;
+    }
+
+    private void OnModelFailed(string message)
+    {
+        PredictButton.IsEnabled = false;
+        PredictErrorText.Text = $"The prediction model could not be trained: {message}";
+        PredictErrorText.Visibility = Visibility.Visible;
+    }
 
     private void PredictButton_Click(object sender, RoutedEventArgs e)
     {
@@ -390,6 +419,8 @@ public partial class MainWindow : Window
 
         AnimateEntrance(StatsGrid, 0);
         AnimateEntrance(ContentGrid, 100);
+
+        _ = TrainModelAsync();
 
         var startTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
         startTimer.Tick += (s, e2) =>
