@@ -234,6 +234,7 @@ public partial class MainWindow : Window
     private readonly DashboardViewModel _viewModel = new();
     private readonly DashboardDataService _dataService = new();
     private readonly PremiumModel _premiumModel = new();
+    private readonly List<PatientRecord> _patients;
     private bool _isDarkTheme;
     private bool _sidebarOpen = true;
     private string _currentPage = "Dashboard";
@@ -251,7 +252,8 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         RootGrid.DataContext = _viewModel;
-        PatientsGrid.ItemsSource = _dataService.GetPatients();
+        _patients = _dataService.GetPatients();
+        PatientsGrid.ItemsSource = _patients;
 
         ApplyTheme(dark: false);
         ShowPage("Dashboard");
@@ -325,6 +327,18 @@ public partial class MainWindow : Window
     {
         PredictButton.IsEnabled = true;
         ShowModelMetrics(metrics);
+        ScorePatients();
+    }
+
+    /// <summary>Adds the predicted yearly cost and risk level to every patient in the table.</summary>
+    private void ScorePatients()
+    {
+        foreach (var patient in _patients)
+        {
+            var cost = _premiumModel.PredictAnnualCost(patient.ToProfile());
+            patient.PredictedAnnualCost = cost;
+            patient.Risk = RiskClassifier.Classify(cost);
+        }
     }
 
     private void ShowModelMetrics(ModelMetrics metrics)

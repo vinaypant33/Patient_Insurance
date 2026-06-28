@@ -538,8 +538,23 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" />
                                 <DataGridTextColumn Header="Policy Number" Binding="{Binding PolicyNumber}" Width="*" />
-                                <DataGridTextColumn Header="Age" Binding="{Binding Age}" Width="*" />
-                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                                <DataGridTextColumn Header="Age" Binding="{Binding Age}" Width="0.6*" />
+                                <DataGridTextColumn Header="BMI" Binding="{Binding Bmi, StringFormat={}{0:0.0}}" Width="0.6*" />
+                                <DataGridTextColumn Header="Smoker" Binding="{Binding SmokerDisplay}" Width="0.7*" />
+                                <DataGridTextColumn Header="Region" Binding="{Binding RegionDisplay}" Width="*" />
+                                <DataGridTextColumn Header="Predicted Cost / yr"
+                                                    Binding="{Binding PredictedAnnualCost, StringFormat={}{0:C0}, TargetNullValue=…}" Width="1.2*" />
+                                <DataGridTemplateColumn Header="Risk" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="12" Padding="10,4" HorizontalAlignment="Left"
+                                                    Background="{Binding Risk, Converter={StaticResource RiskToBrushConverter}}">
+                                                <TextBlock Text="{Binding Risk, TargetNullValue=Scoring…}" FontSize="11" Foreground="White" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="0.8*" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
