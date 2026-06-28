@@ -324,10 +324,24 @@ public partial class MainWindow : Window
     private void OnModelTrained(ModelMetrics metrics)
     {
         PredictButton.IsEnabled = true;
+        ShowModelMetrics(metrics);
+    }
+
+    private void ShowModelMetrics(ModelMetrics metrics)
+    {
+        ModelStatusText.Text =
+            $"FastTree regression trained on {metrics.TrainingRows:N0} dummy patients and tested on " +
+            $"{metrics.TestRows:N0} patients it never saw.";
+        RSquaredText.Text = metrics.RSquared.ToString("0.000", CultureInfo.CurrentCulture);
+        RSquaredNoteText.Text = $"explains {metrics.RSquaredPercent}% of cost differences";
+        MaeText.Text = ((decimal)metrics.MeanAbsoluteError).ToString("C0");
+        RmseText.Text = ((decimal)metrics.RootMeanSquaredError).ToString("C0");
+        MetricsGrid.Visibility = Visibility.Visible;
     }
 
     private void OnModelFailed(string message)
     {
+        ModelStatusText.Text = "Model not available.";
         PredictButton.IsEnabled = false;
         PredictErrorText.Text = $"The prediction model could not be trained: {message}";
         PredictErrorText.Visibility = Visibility.Visible;

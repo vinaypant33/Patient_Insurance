@@ -673,6 +673,37 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
+
+                                <Border Style="{StaticResource DashboardCardStyle}">
+                                    <StackPanel>
+                                        <TextBlock Text="Model accuracy" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,4" />
+                                        <TextBlock x:Name="ModelStatusText" Text="Training model on dummy data…" Style="{StaticResource MutedTextStyle}"
+                                                   TextWrapping="Wrap" Margin="0,0,0,16" />
+
+                                        <Grid x:Name="MetricsGrid" Visibility="Collapsed">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="R² score" Style="{StaticResource StatLabelStyle}" />
+                                                <TextBlock x:Name="RSquaredText" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}" />
+                                                <TextBlock x:Name="RSquaredNoteText" Style="{StaticResource MutedTextStyle}" TextWrapping="Wrap" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="Average error" Style="{StaticResource StatLabelStyle}" />
+                                                <TextBlock x:Name="MaeText" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                <TextBlock Text="per patient per year" Style="{StaticResource MutedTextStyle}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="RMSE" Style="{StaticResource StatLabelStyle}" />
+                                                <TextBlock x:Name="RmseText" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                <TextBlock Text="penalises big misses" Style="{StaticResource MutedTextStyle}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
