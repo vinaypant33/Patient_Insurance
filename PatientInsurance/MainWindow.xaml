@@ -547,7 +547,7 @@
                                 <DataGridTemplateColumn Header="Risk" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border CornerRadius="12" Padding="10,4" HorizontalAlignment="Left"
+                                            <Border CornerRadius="12" Padding="10,4" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                     Background="{Binding Risk, Converter={StaticResource RiskToBrushConverter}}">
                                                 <TextBlock Text="{Binding Risk, TargetNullValue=Scoring…}" FontSize="11" Foreground="White" />
                                             </Border>
