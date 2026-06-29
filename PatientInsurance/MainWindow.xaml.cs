@@ -19,6 +19,14 @@ namespace PatientInsurance;
 // Models
 // ============================================================================
 
+/// <summary>All amounts in the app are US dollars, whatever the PC's region settings are.</summary>
+public static class Money
+{
+    public static readonly CultureInfo Usd = CultureInfo.GetCultureInfo("en-US");
+
+    public static string Format(decimal amount) => amount.ToString("C0", Usd);
+}
+
 public enum ClaimStatus
 {
     Pending,
@@ -156,7 +164,7 @@ public class DashboardViewModel : ObservableObject
     public int ActivePolicies { get; }
     public int PendingClaims { get; }
     public decimal PremiumCollected { get; }
-    public string PremiumCollectedDisplay => PremiumCollected.ToString("C0");
+    public string PremiumCollectedDisplay => Money.Format(PremiumCollected);
 
     public ObservableCollection<Claim> RecentClaims { get; }
     public ObservableCollection<InsurancePolicy> UpcomingRenewals { get; }
@@ -348,8 +356,8 @@ public partial class MainWindow : Window
             $"{metrics.TestRows:N0} patients it never saw.";
         RSquaredText.Text = metrics.RSquared.ToString("0.000", CultureInfo.CurrentCulture);
         RSquaredNoteText.Text = $"explains {metrics.RSquaredPercent}% of cost differences";
-        MaeText.Text = ((decimal)metrics.MeanAbsoluteError).ToString("C0");
-        RmseText.Text = ((decimal)metrics.RootMeanSquaredError).ToString("C0");
+        MaeText.Text = Money.Format((decimal)metrics.MeanAbsoluteError);
+        RmseText.Text = Money.Format((decimal)metrics.RootMeanSquaredError);
         MetricsGrid.Visibility = Visibility.Visible;
     }
 
@@ -398,8 +406,8 @@ public partial class MainWindow : Window
     {
         var risk = RiskClassifier.Classify(annualCost);
 
-        PredictedCostText.Text = annualCost.ToString("C0");
-        MonthlyPremiumText.Text = RiskClassifier.MonthlyPremium(annualCost).ToString("C0");
+        PredictedCostText.Text = Money.Format(annualCost);
+        MonthlyPremiumText.Text = Money.Format(RiskClassifier.MonthlyPremium(annualCost));
         RiskText.Text = risk.ToString();
         RiskBadge.Background = (Brush)new RiskToBrushConverter().Convert(risk, typeof(Brush), null!, CultureInfo.CurrentCulture);
         PredictionNoteText.Text = profile.IsSmoker
