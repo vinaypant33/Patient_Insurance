@@ -76,3 +76,18 @@ PatientInsurance.Tools/   command line: generate dummy data, train and score
 PatientInsurance.Tests/   xUnit tests for the data and the model
 data/                     insurance_dummy.csv
 ```
+
+## Build and run
+
+Needs the .NET 8 SDK (or newer) on Windows.
+
+```
+dotnet build PatientInsurance.sln
+dotnet run --project PatientInsurance
+```
+
+Train the model from the command line and print its accuracy:
+
+```
+dotnet run --project PatientInsurance.Tools -- train
+```
