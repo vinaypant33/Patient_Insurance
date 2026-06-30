@@ -91,3 +91,13 @@ Train the model from the command line and print its accuracy:
 ```
 dotnet run --project PatientInsurance.Tools -- train
 ```
+
+## Tests
+
+```
+dotnet test
+```
+
+22 tests cover the dummy data (ranges, seed, smoker share, CSV round trip) and
+the model (accuracy above R² 0.8, smokers and older patients cost more, input
+validation, risk thresholds and premium maths).
