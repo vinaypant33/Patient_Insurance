@@ -66,3 +66,13 @@ Regenerate it (same seed gives the same file):
 ```
 dotnet run --project PatientInsurance.Tools -- generate 1338 42 data/insurance_dummy.csv
 ```
+
+## Project layout
+
+```
+PatientInsurance/         WPF app (dashboard, patients, predictor, settings)
+PatientInsurance.ML/      ML.NET model, dummy data generator, CSV, risk rules
+PatientInsurance.Tools/   command line: generate dummy data, train and score
+PatientInsurance.Tests/   xUnit tests for the data and the model
+data/                     insurance_dummy.csv
+```
